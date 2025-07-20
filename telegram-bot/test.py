@@ -1,65 +1,61 @@
-TelegramBOT_TOKEN = 'place your Telegram bot token here ' #Replace wth your TelegramBOT_TOKEN 
-
-#general
-
-#Latest version #Gemini API #AIMER Society #IndianServers
+import os
 import telebot
-import os
-
-
-"""
-Install the Google AI Python SDK
-
-$ pip install google-generativeai
-
-See the getting started guide for more information:
-https://ai.google.dev/gemini-api/docs/get-started/python
-"""
-
-import os
-
 import google.generativeai as genai
+from dotenv import load_dotenv
 
-genai.configure(api_key="place your gemini api key here") #Replace with your Gemini api key
+load_dotenv()  # Load env vars from .env file
 
-# Create the model
-# See https://ai.google.dev/api/python/google/generativeai/GenerativeModel
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+
+genai.configure(api_key=GEMINI_API_KEY)
+
 generation_config = {
-  "temperature": 1,
-  "top_p": 0.95,
-  "top_k": 64,
-  "max_output_tokens": 8192,
-  "response_mime_type": "text/plain",
+    "temperature": 1,
+    "top_p": 0.95,
+    "top_k": 64,
+    "max_output_tokens": 8192,
+    "response_mime_type": "text/plain",
 }
 
 model = genai.GenerativeModel(
-  model_name="gemini-1.5-flash",
-  generation_config=generation_config,
-  # safety_settings = Adjust safety settings
-  # See https://ai.google.dev/gemini-api/docs/safety-settings
+    model_name="gemini-1.5-flash",
+    generation_config=generation_config,
 )
 
-chat_session = model.start_chat(
-  history=[
-  ]
-)
+chat_session = model.start_chat(history=[])
 
+bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN)
 
-bot = telebot.TeleBot(TelegramBOT_TOKEN)
 
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
-    bot.reply_to(message, "Welcome! SrikanthPata AI Powerful BOT, Ask your questions related to Anything")
+    bot.reply_to(
+        message,
+        "Welcome! SrikanthPata AI Powerful BOT, Ask your questions related to Anything"
+    )
+
 
 @bot.message_handler(func=lambda message: True)
 def handle_message(message):
- try :
-  print(message)
-  response=chat_session.send_message(message.text)
-  bot.reply_to(message, response.text)
-
- except Exception as e:
+    try:
+        response = chat_session.send_message(message.text)
+        bot.reply_to(message, response.text)
+    except Exception as e:
         print(f"An error occurred: {e}")
         bot.reply_to(message, "Sorry, I couldn't process your request.")
 
-bot.polling()
+
+from keep_alive import keep_alive
+from threading import Thread
+
+def run_bot():
+    bot.polling()
+
+# Start bot in background thread
+bot_thread = Thread(target=run_bot)
+bot_thread.daemon = True
+bot_thread.start()
+
+# Keep Flask server as main process
+keep_alive()
