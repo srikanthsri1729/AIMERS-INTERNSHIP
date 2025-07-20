@@ -1,4 +1,4 @@
-TelegramBOT_TOKEN = '8061989818:AAG2EZThN-JqOErEkqs9aj-95iEUt4Z7SHs' #Replace wth your TelegramBOT_TOKEN 
+TelegramBOT_TOKEN = 'place your Telegram bot token here ' #Replace wth your TelegramBOT_TOKEN 
 
 #general
 
@@ -20,7 +20,7 @@ import os
 
 import google.generativeai as genai
 
-genai.configure(api_key="AIzaSyDHst6M_ns5gTRHFg86fWw6NdtgAs19j-g") #Replace with your Gemini api key
+genai.configure(api_key="place your gemini api key here") #Replace with your Gemini api key
 
 # Create the model
 # See https://ai.google.dev/api/python/google/generativeai/GenerativeModel
