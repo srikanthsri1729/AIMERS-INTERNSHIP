@@ -29,8 +29,6 @@ A smart Telegram bot that uses Google's Gemini API to respond to user messages i
 ## 📦 Setup & Deployment
 
 ### 1. Clone the repository
-
-```bash
 git clone https://github.com/srikanthsri1729/AIMERS-INTERNSHIP.git
 cd AIMERS-INTERNSHIP/telegram-bot
 2. Install requirements
