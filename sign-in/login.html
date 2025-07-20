@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Form</title>
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root { font-family: 'Inter', sans-serif; }
+    @supports (font-variation-settings: normal) {
+      :root { font-family: 'Inter var', sans-serif; }
+    }
+    .error {
+      color: #ef4444;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+    }
+    .input-error {
+      border-color: #ef4444;
+    }
+  </style>
+</head>
+<body class="antialiased bg-slate-200 flex items-center justify-center min-h-screen p-4 sm:p-6">
+  <div class="w-full max-w-md p-6 sm:p-10 bg-white rounded-xl shadow-md sm:mt-10 sm:mb-10 sm:mx-auto">
+    <h1 class="text-3xl sm:text-4xl font-medium text-gray-800">Login</h1>
+    <p class="text-gray-500 mt-2">Hi, Welcome back 👋</p>
+
+    <div class="mt-6">
+      <button class="w-full py-3 flex items-center justify-center border border-gray-200 rounded-lg text-gray-700 hover:border-gray-400 hover:text-gray-900 hover:shadow transition duration-150">
+        <img src="https://www.svgrepo.com/show/355037/google.svg" class="w-5 h-5 mr-3" alt="Google Icon">
+        <span>Login with Google</span>
+      </button>
+    </div>
+
+    <form id="loginForm" class="mt-8 space-y-6">
+      <!-- Email Input -->
+      <label for="email" class="block">
+        <span class="block text-gray-700 font-medium">Email Address</span>
+        <input
+          id="email"
+          type="email"
+          name="email"
+          class="mt-1 w-full py-2 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
+          placeholder="Enter your email"
+        >
+        <p id="emailError" class="error hidden">Please enter a valid email.</p>
+      </label>
+
+      <!-- Password Input -->
+      <label for="password" class="block">
+        <span class="block text-gray-700 font-medium">Password</span>
+        <input
+          id="password"
+          type="password"
+          name="password"
+          class="mt-1 w-full py-2 px-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
+          placeholder="Enter your password"
+        >
+        <p id="passwordError" class="error hidden">Password must be at least 8 characters long.</p>
+      </label>
+
+      <!-- Remember Me and Forgot Password -->
+      <div class="flex justify-between items-center">
+        <label class="inline-flex items-center">
+          <input type="checkbox" class="form-checkbox h-4 w-4 text-indigo-600">
+          <span class="ml-2 text-gray-700">Remember me</span>
+        </label>
+        <a href="#" class="text-sm font-medium text-indigo-600 hover:underline">Forgot Password?</a>
+      </div>
+
+      <!-- Login Button -->
+      <button type="submit" class="w-full py-3 text-white bg-indigo-600 hover:bg-indigo-500 rounded-lg font-medium text-lg shadow-lg transition duration-150">
+        <span>Login</span>
+      </button>
+    </form>
+
+    <p class="text-center mt-6 text-gray-600">
+      Not registered yet? <a href="signup.html" class="text-indigo-600 font-medium hover:underline">Register now</a>
+    </p>
+  </div>
+
+  <script>
+    const form = document.getElementById('loginForm');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const emailError = document.getElementById('emailError');
+    const passwordError = document.getElementById('passwordError');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      let isValid = true;
+
+      // Validate Email
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailInput.value || !emailRegex.test(emailInput.value)) {
+        emailError.classList.remove('hidden');
+        emailInput.classList.add('input-error');
+        isValid = false;
+      } else {
+        emailError.classList.add('hidden');
+        emailInput.classList.remove('input-error');
+      }
+
+      // Validate Password
+      if (!passwordInput.value || passwordInput.value.length < 8) {
+        passwordError.classList.remove('hidden');
+        passwordInput.classList.add('input-error');
+        isValid = false;
+      } else {
+        passwordError.classList.add('hidden');
+        passwordInput.classList.remove('input-error');
+      }
+
+      if (isValid) {
+        alert('Form submitted successfully!');
+        form.reset();
+      }
+    });
+  </script>
+</body>
+</html>
